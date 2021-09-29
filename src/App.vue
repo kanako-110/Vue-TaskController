@@ -1,7 +1,11 @@
 <template>
 	<div class="container">
 		<!-- showAddTaskというpropsでshowAddTaskの結果(bool)を返す -->
-		<Header @toggle-add-task="toggleAddTask" title="Task Tracker" :showAddTask="showAddTask" />
+		<Header
+			@toggle-add-task="toggleAddTask"
+			title="Task Tracker"
+			:showAddTask="showAddTask"
+		/>
 		<div v-show="showAddTask">
 			<AddTask @add-task="addTask" />
 		</div>
@@ -48,29 +52,24 @@ export default {
 				task.id === id ? { ...task, reminder: !task.reminder } : task
 			);
 		},
+		async fetchTasks() {
+			const res = await fetch('api/tasks');
+
+			const data = await res.json();
+
+			return data;
+		},
+		async fetchTask() {
+			const res = await fetch(`api/tasks/${id}`);
+
+			const data = await res.json();
+
+			return data;
+		},
 	},
 	// created:ライフサイクル。Domがまだ作られていないタイミング、apiを使ったデータはすでに取得されているのでデータは使える
-	created() {
-		this.tasks = [
-			{
-				id: 1,
-				text: 'Doctors Appointment',
-				day: 'March 1st at 2:30pm',
-				reminder: true,
-			},
-			{
-				id: 2,
-				text: 'Metting at School',
-				day: 'March 3rd at 1:30pm',
-				reminder: true,
-			},
-			{
-				id: 3,
-				text: 'Food Shopping',
-				day: 'March 3rd at 11:30am',
-				reminder: false,
-			},
-		];
+	async created() {
+		this.tasks = await this.fetchTasks();
 	},
 };
 </script>

@@ -52,14 +52,30 @@ export default {
 
 			this.tasks = [...this.tasks, data];
 		},
-		deleteTask(id) {
+		async deleteTask(id) {
 			if (confirm('Are you sure?')) {
-				this.tasks = this.tasks.filter((task) => task.id !== id);
+				const res = await fetch(`api/tasks/${id}`, {
+					method: 'DELETE',
+				});
+
+				res.status === 200
+					? (this.tasks = this.tasks.filter((task) => task.id !== id))
+					: alert('Error deleting task');
 			}
 		},
-		toggleReminder(id) {
+		async toggleReminder(id) {
+			const taskToToggle = await this.fetchTask(id);
+			const updTask = { ...taskToToggle, reminder: !taskToToggle.reminder };
+			const res = await fetch(`api/tasks/${id}`, {
+				method: 'PUT',
+				headers: {
+					'Content-type': 'application/json',
+				},
+				body: JSON.stringify(updTask),
+			});
+			const data = await res.json();
 			this.tasks = this.tasks.map((task) =>
-				task.id === id ? { ...task, reminder: !task.reminder } : task
+				task.id === id ? { ...task, reminder: data.reminder } : task
 			);
 		},
 		async fetchTasks() {
@@ -69,7 +85,7 @@ export default {
 
 			return data;
 		},
-		async fetchTask() {
+		async fetchTask(id) {
 			const res = await fetch(`api/tasks/${id}`);
 
 			const data = await res.json();

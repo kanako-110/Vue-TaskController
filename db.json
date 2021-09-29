@@ -33,12 +33,12 @@
       "id": 3,
       "text": "Food Shopping",
       "day": "March 3rd at 11:30am",
-      "reminder": false
+      "reminder": true
     },
     {
-      "id": 5567,
-      "text": "Dentist",
-      "day": "March 10th at 3pm",
+      "id": 7195,
+      "text": "a",
+      "day": "あ",
       "reminder": true
     }
   ]

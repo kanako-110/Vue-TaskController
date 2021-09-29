@@ -1,7 +1,12 @@
 <template>
 	<header>
 		<h1>{{ title }}</h1>
-		<Button text="add Task" color="green" />
+		<!-- : v-bind -->
+		<Button
+			@toggle-add-task="$emit('toggle-add-task')"
+			:text="showAddTask ? 'Close' : 'Add Task'"
+			:color="showAddTask ? 'red' : 'Green'"
+		/>
 	</header>
 </template>
 
@@ -13,6 +18,7 @@ export default {
 	// props名: type
 	props: {
 		title: String,
+		showAddTask: Boolean,
 	},
 	components: {
 		Button,

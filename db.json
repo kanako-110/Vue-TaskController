@@ -40,6 +40,12 @@
       "text": "a",
       "day": "あ",
       "reminder": true
+    },
+    {
+      "text": "a",
+      "day": "a",
+      "reminder": true,
+      "id": 7196
     }
   ]
 }
